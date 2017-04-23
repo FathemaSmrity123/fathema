@@ -1,0 +1,10 @@
+#include<bits/stdc++.h>
+using namespace std;
+int main()
+{
+int c,d,a,b;
+scanf("%d%d",&a,&b);
+c=__gcd(a,b);
+printf("%d",c);
+return 0;
+}
