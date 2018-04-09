@@ -1,0 +1,73 @@
+#include<bits/stdc++.h>
+using namespace std;
+const int Max=1000005;
+int node,edge;
+int parent[100005],r[100005];
+pair <long long,pair <int,int> >p[Max];
+void built(int node)
+{
+    for(int i=1;i<=node;i++)
+    {
+        parent[i]=i;
+        r[i]=0;
+    }
+}
+/// It's needed when finding maximum spanning tree
+bool my_friend(int i,int j)
+{
+    return i>j;
+}
+int make_friend(int n)
+{
+    if(parent[n]==n)
+        return n;
+    else
+        return parent[n]=make_friend(parent[n]);
+}
+void make_union(int a,int b)
+{
+    if(r[a]>r[b])
+    {
+        parent[b]=a;
+    }
+    else
+    {
+        parent[a]=b;
+        if(r[a]==r[b])
+            r[b]++;
+    }
+}
+long long kruskal(pair <long long,pair <int,int> >p[])
+{
+    int minimumcost=0;
+    int x,y,cost;
+    for(int i=0;i<edge;i++)
+    {
+        x=p[i].second.first;
+        y=p[i].second.second;
+        cost=p[i].first;
+        int pa=make_friend(x);
+        int pb=make_friend(y);
+        if(pa!=pb)
+        {
+            minimumcost+=cost;
+            make_union(pa,pb);
+        }
+    }
+    return minimumcost;
+}
+int main()
+{
+    int a,b,cost;
+    cin>>node>>edge;
+    built(node);
+    for(int i=0;i<edge;i++)
+    {
+        cin>>a>>b>>cost;
+        p[i]=make_pair(cost,make_pair(a,b));
+    }
+        sort(p,p+edge);
+        int minimumcost=kruskal(p);
+        cout<<minimumcost<<endl;
+    return 0;
+}
